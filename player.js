@@ -346,8 +346,9 @@
 				this.guideWindow.style.visibility = 'visible';
 			};
 			this.renderTip = function () {
-				this.groomTo(this.guide[this.page].selector);
 				this.referenceDocument.getElementById('gls-tip').innerHTML = this.guide[this.page].content;
+				this.groomTo(this.guide[this.page].selector);
+
 			}
 		},
 		operations: function () {
