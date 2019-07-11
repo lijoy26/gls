@@ -81,8 +81,8 @@
 
 			this.next = function () {
 				if (this.canNavigate) {
-					this.page = this.getIndexwitId(this.guide[this.page].next);
-					this.goto();
+					// this.page = this.getIndexwitId(this.guide[this.page].next);
+					this.goto(this.guide[this.page].next);
 				} else {
 					this.throwError({
 						type: 'last-page',
@@ -92,8 +92,7 @@
 			};
 			this.previous = function () {
 				if (this.page > this.firstPage) {
-					this.page = this.getIndexwitId(parseInt(this.guide[this.page].id) - 1);
-					this.goto();
+					this.goto(this.guide[this.page].id - 1);
 				} else {
 					this.throwError({
 						type: 'first-page',
@@ -101,8 +100,8 @@
 					});
 				}
 			};
-			this.goto = function (page = null) {
-				this.page = page || this.page;
+			this.goto = function (id = null) {
+				this.page = this.getIndexwitId(id);
 				this.renderTip();
 				this.canNavigate = this.guide[this.page].next;
 			};
