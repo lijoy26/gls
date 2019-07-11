@@ -92,7 +92,7 @@
 			};
 			this.previous = function () {
 				if (this.page > this.firstPage) {
-					this.page--;
+					this.page = this.getIndexwitId(parseInt(this.guide[this.page].id) - 1);
 					this.goto();
 				} else {
 					this.throwError({
