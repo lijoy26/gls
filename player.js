@@ -54,8 +54,7 @@
 					this.guide = guide;
 					this.firstPage = this.getFirstPage();
 					this.page = this.firstPage;
-					this.renderTip();
-					this.show();
+					this.goto(this.guide[this.page].id);
 
 				} else if (guide && this.guideType == 'string') {
 					this.getguideFromPath(this.guideSrc);
@@ -77,8 +76,7 @@
 						GLSPlayer.guide = JSON.parse(xhttp.responseText).steps;
 						GLSPlayer.firstPage = GLSPlayer.getFirstPage();
 						GLSPlayer.page = GLSPlayer.firstPage;
-						GLSPlayer.renderTip();
-						GLSPlayer.show();
+						GLSPlayer.goto(this.guide[this.page].id);
 					}
 				};
 				xhttp.open("GET", path, true);
@@ -118,6 +116,7 @@
 				this.page = this.getIndexwitId(id);
 				this.renderTip();
 				this.canNavigate = this.guide[this.page].next;
+				this.manageButtons();
 			};
 			this.skip = function () {
 				console.log('Next page skipped current page : ', this.page);
@@ -255,6 +254,18 @@
 				}
 				return this.reference;
 			};
+			this.manageButtons = function () {
+				if (this.firstPage == this.page) {
+					this.previousButton.hide();
+				} else {
+					this.previousButton.show();
+				}
+				if (!this.canNavigate) {
+					this.nextButton.hide();
+				} else {
+					this.nextButton.show();
+				}
+			};
 		},
 		errorHandler: function () {
 			this.throwError = function (error) {
@@ -361,6 +372,12 @@
 			Array.prototype.getLastItem = function () {
 				return this[this.length - 1];
 			};
+			HTMLElement.prototype.hide = function(){
+				this.style.visibility = 'hidden';
+			};
+			HTMLElement.prototype.show = function(){
+				this.style.visibility = 'visible';
+			};
 			this.getFirstId = function () {
 
 				return (this.getSortedNumberIds(
@@ -389,7 +406,7 @@
 			};
 			this.windowResize = function () {
 				this.renderTip();
-			}
+			};
 		},
 		keyboard: function () {
 			this.addKeyboardEvents = function (event) {
