@@ -326,7 +326,10 @@
 				}
 			};
 			this.fromXpathFromJqueryEq = function (eqSelector) {
-				eqSelector = '//' + eqSelector.split(':')[0] + '['+ eqSelector.match(/\d+/g).map(Number)[0]+']';
+				/*
+				* + 1 to match the index jquery eq starts with index 0
+				*/
+				eqSelector = '//' + eqSelector.split(':')[0] + '[' + (parseInt(eqSelector.match(/\d+/g).map(Number)[0]) + 1) + ']';
 				return eqSelector;
 			}
 		}
@@ -348,7 +351,7 @@ GLSPlayer.init({ replay: 'FALSE' }, [{
 {
 	"id": "3",
 	"content": "tip on third div.",
-	"selector": "div:eq(3)",
+	"selector": "div:eq(2)",
 	"next": null,
 },
 {
