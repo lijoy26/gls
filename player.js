@@ -12,19 +12,9 @@
 		this.replay = 'TRUE';
 		this.referenceDocument = document;
 		this.currentElement = null;
-		// this.currentTip = {
-		// 	title: 'DEFAULT TITLE',
-		// 	content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-
-		// };
 		this.guideSrc = null;
 		this.guideType = null;
 		this.guide = [
-			{
-				title: 'DEFAULT TITLE',
-				content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-
-			},
 			{
 				title: 'DEFAULT TITLE',
 				content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
@@ -118,12 +108,11 @@
 				/*
 				* Play guid
 				*/
-				// this.currentTip = this.guide[this.page];
-				// console.log(this.currentTip.content);
 				if (!guideWindow) {
 					this.createGuideWindow();
 				} else {
 					this.guideWindow = guideWindow;
+					this.guideWindow.style.position = 'absolute';
 				}
 
 				this.renderTip();
@@ -164,6 +153,9 @@
 					case "CLASS":
 						return this.byClass(this.reference.identifier);
 					case "XPATH":
+						return this.byXpath(this.reference.identifier);
+					case "JQEQ":
+						this.reference.identifier = this.fromXpathFromJqueryEq(this.reference.identifier);
 						return this.byXpath(this.reference.identifier);
 					default:
 						this.throwError({
@@ -206,8 +198,11 @@
 				return this.currentElement;
 
 			};
-			this.groom = function (element) {
-				this.guideWindow.style.left = '20px';
+			this.groomTo = function (selector) {
+				this.guideWindow.style.top = this.getElement(selector).getBoundingClientRect().bottom + 'px';
+				this.guideWindow.style.left = this.getElement(selector).getBoundingClientRect().left + 'px';
+
+
 			};
 			this.getReference = function (selector) {
 				this.reference = {
@@ -216,9 +211,11 @@
 						'CLASS' :
 						selector.includes("#") ?
 							'ID' :
-							selector.includes(":") ?
+							selector.includes("/") ?
 								'XPATH' :
-								''
+								selector.includes(":") ?
+									'JQEQ' :
+									''
 				}
 				return this.reference;
 			};
@@ -243,7 +240,6 @@
 
 			this.css = `#guide{
 					background-color: rgba(0,0,0,0.2);
-					position: absolute;
 					border-radius: 50px;
 					padding: 4px;
 				}
@@ -286,6 +282,7 @@
 				this.addStyle();
 
 				this.guideWindow = this.referenceDocument.createElement('DIV');
+				this.guideWindow.style.position = 'absolute';
 				this.guideWindow.innerHTML = this.markup;
 				this.referenceDocument.body.appendChild(this.guideWindow);
 			};
@@ -296,7 +293,7 @@
 				this.guideWindow.style.visibility = 'visible';
 			};
 			this.renderTip = function () {
-				console.log(this.guide[this.page].content);
+				this.groomTo(this.guide[this.page].selector);
 				this.referenceDocument.getElementById('gls-tip').innerHTML = this.guide[this.page].content;
 			}
 		},
@@ -328,6 +325,10 @@
 					}
 				}
 			};
+			this.fromXpathFromJqueryEq = function (eqSelector) {
+				eqSelector = '//' + eqSelector.split(':')[0] + '['+ eqSelector.match(/\d+/g).map(Number)[0]+']';
+				return eqSelector;
+			}
 		}
 	};
 	window.GLSPlayer = new GLS();
@@ -347,7 +348,7 @@ GLSPlayer.init({ replay: 'FALSE' }, [{
 {
 	"id": "3",
 	"content": "tip on third div.",
-	"selector": "div:eq(2)",
+	"selector": "div:eq(3)",
 	"next": null,
 },
 {
