@@ -15,6 +15,7 @@
 		this.currentElement = null;
 		this.guideSrc = null;
 		this.guideType = null;
+		this.tipArrow = null;
 		this.guide = [
 			{
 				title: 'DEFAULT TITLE',
@@ -136,6 +137,9 @@
 				} else {
 					this.guideWindow = guideWindow;
 					this.guideWindow.style.position = 'absolute';
+					this.tipArrow = this.referenceDocument.querySelector('.gls-arrow');
+					this.nextButton = this.referenceDocument.querySelector('.gls-next');
+					this.previousButton = this.referenceDocument.querySelector('.gls-previous');
 				}
 				this.initGuide(this.guideSrc);
 
@@ -221,9 +225,19 @@
 
 			};
 			this.groomTo = function (selector) {
-				this.guideWindow.style.top = this.getElement(selector).getBoundingClientRect().bottom + 'px';
-				this.guideWindow.style.left = this.getElement(selector).getBoundingClientRect().left + 'px';
+				this.guideWindow.style.top = this.getElement(selector).offsetTop + this.getElement(selector).offsetHeight + 4 + 'px';
+				this.guideWindow.style.left = this.getElement(selector).getBoundingClientRect().left + (this.getElement(selector).offsetWidth / 2) - this.guideWindow.offsetWidth / 2 + 'px';
+				if (this.guideWindow.offsetTop >= this.referenceDocument.body.parentElement.scrollHeight - this.guideWindow.offsetHeight) {
+					this.guideWindow.style.top = this.referenceDocument.body.parentElement.scrollHeight - this.getElement(selector).offsetHeight - (this.guideWindow.offsetHeight * 2) - 8 + 'px';
+					this.tipArrow.style.bottom = '-8px';
+					this.tipArrow.style.borderBottom = 'unset';
+					this.tipArrow.style.borderTop = '8px solid rgba(0,0,0,0.2)';
+				} else {
 
+					this.tipArrow.style.bottom = '100%';
+					this.tipArrow.style.borderTop = 'unset';
+					this.tipArrow.style.borderBottom = '8px solid rgba(0,0,0,0.2)';
+				}
 
 			};
 			this.getReference = function (selector) {
@@ -248,28 +262,31 @@
 			};
 		},
 		ui: function () {
-			this.markup =
-				`<div id="guide">
+			this.markup = `
+				<div id="guide">
+				<div class="gls-arrow"></div>
 						<div class="guide-close" onclick="GLSPlayer.hide()">X</div>
 					<div class="guide-tip" id="gls-tip">
 						${this.guide[this.page].content}
 					</div>
 					<div class="button-wrap">
-						<a class="button" onclick="GLSPlayer.previous()">Previous</a>
-						<a class="button" onclick="GLSPlayer.next()">Next</a>
+						<a class="button gls-previous" onclick="GLSPlayer.previous()">Previous</a>
+						<a class="button gls-next" onclick="GLSPlayer.next()">Next</a>
 					</div>
 				</div>`;
 
 			this.css = `#guide{
 					background-color: rgba(0,0,0,0.2);
-					border-radius: 50px;
+					border-radius: 20px;
 					padding: 4px;
 				}
 				.guide-tip {
 					padding: 4px;
 					font-style: italic;
 					overflow: auto;
-					margin-top: 8px
+					margin-top: 8px;
+					text-align: center;
+					width: 100%;
 				}
 				.guide-close {
 						float: right;
@@ -280,12 +297,22 @@
 					text-align: right;
 					padding: 2px;
 				}
-				
-				.button {
-					margin-right: 18px;
+				.gls-arrow {
+					width: 0;
+					height: 0;
+					border-left: 4px solid transparent;
+					border-right: 4px solid transparent;
+					border-bottom: 8px solid rgba(0,0,0,0.2);
+					left: 50%;
+					text-align: center;
+					position: absolute;
+					bottom: 100%;
+				}
+				a.button {
+					margin-right: 14px;
 					cursor: pointer;
 				}
-				.button:hover {
+				a.button:hover {
 					color: #88c999;
 				}`;
 			this.addStyle = function () {
@@ -307,6 +334,10 @@
 				this.guideWindow.style.position = 'absolute';
 				this.guideWindow.innerHTML = this.markup;
 				this.referenceDocument.body.appendChild(this.guideWindow);
+				this.tipArrow = this.referenceDocument.querySelector('.gls-arrow');
+				this.nextButton = this.referenceDocument.querySelector('.gls-next');
+				this.previousButton = this.referenceDocument.querySelector('.gls-previous');
+
 			};
 			this.hide = function () {
 				this.guideWindow.style.visibility = 'hidden';
@@ -355,6 +386,9 @@
 				eqSelector = '//' + eqSelector.split(':')[0] + '[' + (parseInt(eqSelector.match(/\d+/g).map(Number)[0]) + 1) + ']';
 				return eqSelector;
 			};
+			this.windowResize = function () {
+				this.renderTip();
+			}
 		},
 		keyboard: function () {
 			this.addKeyboardEvents = function (event) {
@@ -368,10 +402,10 @@
 					event = event;
 				}
 				switch (event.which) {
-					case 78: // n for next tip
+					case 39: // rigth arrow for next tip
 						GLSPlayer.next();
 						break;
-					case 80: // p for previous tip
+					case 37: // left arrow for previous tip
 						GLSPlayer.previous();
 						break;
 				}
