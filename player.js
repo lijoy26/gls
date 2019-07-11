@@ -54,7 +54,8 @@
 					this.firstPage = this.getFirstPage();
 					this.page = this.firstPage;
 				} else if (guide && this.guideType == 'string') {
-					// get json from guideSrc
+					this.getguideFromPath(this.guideSrc);
+
 				} else {
 					this.throwError({
 						type: 'invalid guid type ',
@@ -65,8 +66,19 @@
 					this.referenceDocument.onkeydown = this.addKeyboardEvents;
 				}
 			};
+			this.getguideFromPath = function (path) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						GLSPlayer.guide = JSON.parse(xhttp.responseText).steps;
+						GLSPlayer.renderTip();
+						GLSPlayer.show();
+					}
+				};
+				xhttp.open("GET", path, true);
+				xhttp.send();
+			};
 
-			this.initGuide(this.guideSrc);
 
 		},
 		navigator: function () {
@@ -120,9 +132,8 @@
 					this.guideWindow = guideWindow;
 					this.guideWindow.style.position = 'absolute';
 				}
+				this.initGuide(this.guideSrc);
 
-				this.renderTip();
-				this.show();
 			};
 			this.stop = function () {
 
@@ -370,21 +381,22 @@
 /*
 IMPLEMENTATION
 */
-GLSPlayer.init({ replay: 'FALSE' }, [{
-	"id": "1",
-	"content": "tip on first div",
-	"selector": "#id_1",
-	"next": "2"
-},
-{
-	"id": "3",
-	"content": "tip on third div.",
-	"selector": "div:eq(2)",
-	"next": null,
-},
-{
-	"id": "2",
-	"content": "tip on second div",
-	"selector": ".myClass2",
-	"next": "3",
-}], document);
+GLSPlayer.init({ replay: 'FALSE' }, './guide.json', document);
+// [{
+// 	"id": "1",
+// 	"content": "tip on first div",
+// 	"selector": "#id_1",
+// 	"next": "2"
+// },
+// {
+// 	"id": "3",
+// 	"content": "tip on third div.",
+// 	"selector": "div:eq(2)",
+// 	"next": null,
+// },
+// {
+// 	"id": "2",
+// 	"content": "tip on second div",
+// 	"selector": ".myClass2",
+// 	"next": "3",
+// }]
