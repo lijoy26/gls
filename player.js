@@ -10,6 +10,7 @@
 		this.canNavigate = true;
 		this.firstPage = 1;
 		this.replay = 'TRUE';
+		this.keyboardEvents = true;
 		this.referenceDocument = document;
 		this.currentElement = null;
 		this.guideSrc = null;
@@ -36,6 +37,7 @@
 			this.page = settings.page || this.page;
 			this.referenceDocument = referenceDocument || this.referenceDocument;
 			this.guideSrc = guide;
+			this.keyboardEvents = settings.keyboardEvents || this.keyboardEvents;
 
 			this.navigator.apply(this, []);
 			this.element.apply(this, []);
@@ -43,6 +45,7 @@
 			this.player.apply(this, []);
 			this.ui.apply(this, []);
 			this.operations.apply(this, []);
+			this.keyboard.apply(this, []);
 
 			this.initGuide = function (guide) {
 				this.guideType = typeof guide;
@@ -57,6 +60,9 @@
 						type: 'invalid guid type ',
 						msg: this.guideType
 					});
+				}
+				if (this.keyboardEvents) {
+					this.referenceDocument.onkeydown = this.addKeyboardEvents;
 				}
 			};
 
@@ -328,10 +334,32 @@
 			this.fromXpathFromJqueryEq = function (eqSelector) {
 				/*
 				* + 1 to match the index jquery eq starts with index 0
+				* supports negative values 
 				*/
 				eqSelector = '//' + eqSelector.split(':')[0] + '[' + (parseInt(eqSelector.match(/\d+/g).map(Number)[0]) + 1) + ']';
 				return eqSelector;
-			}
+			};
+		},
+		keyboard: function () {
+			this.addKeyboardEvents = function (event) {
+				if (GLSPlayer.referenceDocument.all) {
+					if (!event) {
+						event = GLSPlayer.referenceDocument.window.event;
+						event['which'] = event.keyCode;
+					}
+				}
+				else if (event.which) {
+					event = event;
+				}
+				switch (event.which) {
+					case 78: // n for next tip
+						GLSPlayer.next();
+						break;
+					case 80: // p for previous tip
+						GLSPlayer.previous();
+						break;
+				}
+			};
 		}
 	};
 	window.GLSPlayer = new GLS();
