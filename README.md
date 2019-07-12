@@ -138,3 +138,4 @@ GLS Player comes with a default template. Which can be optionaly enable during `
 - Integrate build with npm
 - create npm package
 - All browser support
+- Context menu support get tip of particular element

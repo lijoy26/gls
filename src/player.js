@@ -433,26 +433,3 @@
 	window.GLSPlayer = new GLS();
 })();
 
-
-
-/*
-IMPLEMENTATION
-*/
-GLSPlayer.init({ replay: 'FALSE' }, [{
-	"id": "1",
-	"content": "tip on first div",
-	"selector": "#id_1",
-	"next": "2"
-},
-{
-	"id": "3",
-	"content": "tip on third div.",
-	"selector": "div:eq(2)",
-	"next": null,
-},
-{
-	"id": "2",
-	"content": "tip on second div",
-	"selector": ".myClass2",
-	"next": "3",
-}], document);
