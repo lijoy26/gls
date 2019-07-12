@@ -8,7 +8,7 @@ Guided Learning System Player is open source javascript library to integrate wit
 - Jquery not required runs on plain javascript.
 - Support Jquery `eq` selector.
 - Support `iframe` based applications, can pass document referance.
-- Support shuffled arry.
+- Support shuffled array.
 
 ### Usage
 
