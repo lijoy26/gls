@@ -238,7 +238,7 @@
 					this.tipArrow.style.borderTop = 'unset';
 					this.tipArrow.style.borderBottom = '8px solid lightgray';
 				}
-
+				this.getElement(selector).scrollIntoView();
 			};
 			this.getReference = function (selector) {
 				this.reference = {

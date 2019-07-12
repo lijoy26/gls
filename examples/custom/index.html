@@ -17,10 +17,60 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .tooltip {
+            position: absolute;
+            padding: 8px;
+            border: 3px solid #fff;
+            border-radius: 8px;
+            background-color: #1FDA9A;
+            font-size: .9em;
+            font-weight: bold;
+            color: #fff;
+            content: attr(data-tooltip);
+            min-width: 80px;
+            // width: -moz-max-content;
+            // width: -webkit-max-content;
+            opacity: 1;
+            transition: all .2s ease-in-out .25s;
+            visibility: visible;
+            z-index: 2;
+        }
 
+        .gls-arrow {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 8px solid #1FDA9A !important;
+            left: 50%;
+            text-align: center;
+            position: absolute;
+            bottom: 100%;
+        }
+        .guide-close{
+            float: right;
+        }
+    </style>
 </head>
 
-<body onload="GLSPlayer.play();">
+<body onload="GLSPlayer.play(document.querySelector('#glsToolwindow'));">
+    <div id="glsToolwindow" class="tooltip">
+
+        <div id="guide">
+            <div class="gls-arrow"></div>
+            <div class="guide-close" onclick="GLSPlayer.hide()">X</div>
+            <div class="guide-tip" id="gls-tip">
+                ${this.guide[this.page].content}
+            </div>
+            <div class="button-wrap">
+                <a class="button gls-previous" onclick="GLSPlayer.previous()">Previous</a>
+                <a class="button gls-next" onclick="GLSPlayer.next()">Next</a>
+            </div>
+        </div>
+
+    </div>
+
     <!-- Search Wrapper Area Start -->
     <div class="search-wrapper section-padding-100">
         <div class="search-close">
@@ -231,7 +281,8 @@
                 <div class="col-12 col-lg-6 col-xl-7">
                     <div class="newsletter-text mb-100">
                         <h2>Subscribe for a <span>25% Discount</span></h2>
-                        <p>Nulla ac convallis lorem, eget euismod nisl. Donec in libero sit amet mi vulputate consectetur. Donec auctor interdum purus, ac finibus massa bibendum nec.</p>
+                        <p>Nulla ac convallis lorem, eget euismod nisl. Donec in libero sit amet mi vulputate
+                            consectetur. Donec auctor interdum purus, ac finibus massa bibendum nec.</p>
                     </div>
                 </div>
                 <!-- Newsletter Form -->
@@ -260,9 +311,14 @@
                             <a href="index.html"><img src="img/core-img/logo2.png" alt=""></a>
                         </div>
                         <!-- Copywrite Text -->
-                        <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        <p class="copywrite">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
                     </div>
                 </div>
                 <!-- Single Widget Area -->
@@ -271,7 +327,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                         <!-- Footer Menu -->
                         <div class="footer_menu">
                             <nav class="navbar navbar-expand-lg justify-content-end">
-                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                    data-target="#footerNavContent" aria-controls="footerNavContent"
+                                    aria-expanded="false" aria-label="Toggle navigation"><i
+                                        class="fa fa-bars"></i></button>
                                 <div class="collapse navbar-collapse" id="footerNavContent">
                                     <ul class="navbar-nav ml-auto">
                                         <li class="nav-item active">
@@ -315,26 +374,26 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <script>
 
-		GLSPlayer.init({ replay: 'FALSE' }, [{
-			"id": "1",
-			"content": "Go to home page",
-			"selector": ".home-link",
-			"next": "2"
-		},
-		{
-			"id": "3",
-			"content": "click here to know more about new week ",
-			"selector": "div:eq(2)",
-			"next": null,
-		},
-		{
-			"id": "2",
-			"content": "Shop all items",
-			"selector": "#shop-link",
-			"next": "3",
-		}], document);
+        GLSPlayer.init({ replay: 'FALSE' }, [{
+            "id": "1",
+            "content": "Go to home page",
+            "selector": ".home-link",
+            "next": "2"
+        },
+        {
+            "id": "3",
+            "content": "Nice metalic chair will give your home elagent look! ",
+            "selector": "div:eq(6)",
+            "next": null,
+        },
+        {
+            "id": "2",
+            "content": "Shop all items",
+            "selector": "#shop-link",
+            "next": "3",
+        }], document);
 
-	</script>
+    </script>
 </body>
 
 </html>
