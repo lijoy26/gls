@@ -374,10 +374,10 @@
 			Array.prototype.getLastItem = function () {
 				return this[this.length - 1];
 			};
-			HTMLElement.prototype.hide = function(){
+			HTMLElement.prototype.hide = function () {
 				this.style.visibility = 'hidden';
 			};
-			HTMLElement.prototype.show = function(){
+			HTMLElement.prototype.show = function () {
 				this.style.visibility = 'visible';
 			};
 			this.getFirstId = function () {
