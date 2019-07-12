@@ -139,3 +139,4 @@ GLS Player comes with a default template. Which can be optionaly enable during `
 - create npm package
 - All browser support
 - Context menu support get tip of particular element
+- Validate input JSON using JSON schema
