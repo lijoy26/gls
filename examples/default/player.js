@@ -136,6 +136,7 @@
 				} else {
 					this.guideWindow = guideWindow;
 					this.guideWindow.style.position = 'absolute';
+					this.guideWindow.style.zIndex = '100';
 					this.tipArrow = this.referenceDocument.querySelector('.gls-arrow');
 					this.nextButton = this.referenceDocument.querySelector('.gls-next');
 					this.previousButton = this.referenceDocument.querySelector('.gls-previous');
@@ -230,12 +231,12 @@
 					this.guideWindow.style.top = this.referenceDocument.body.parentElement.scrollHeight - this.getElement(selector).offsetHeight - (this.guideWindow.offsetHeight * 2) - 8 + 'px';
 					this.tipArrow.style.bottom = '-8px';
 					this.tipArrow.style.borderBottom = 'unset';
-					this.tipArrow.style.borderTop = '8px solid rgba(0,0,0,0.2)';
+					this.tipArrow.style.borderTop = '8px solid lightgray';
 				} else {
 
 					this.tipArrow.style.bottom = '100%';
 					this.tipArrow.style.borderTop = 'unset';
-					this.tipArrow.style.borderBottom = '8px solid rgba(0,0,0,0.2)';
+					this.tipArrow.style.borderBottom = '8px solid lightgray';
 				}
 
 			};
@@ -287,7 +288,7 @@
 				</div>`;
 
 			this.css = `#guide{
-					background-color: rgba(0,0,0,0.2);
+					background-color: lightgray;
 					border-radius: 20px;
 					padding: 4px;
 				}
@@ -313,7 +314,7 @@
 					height: 0;
 					border-left: 4px solid transparent;
 					border-right: 4px solid transparent;
-					border-bottom: 8px solid rgba(0,0,0,0.2);
+					border-bottom: 8px solid lightgray;
 					left: 50%;
 					text-align: center;
 					position: absolute;
@@ -343,6 +344,7 @@
 
 				this.guideWindow = this.referenceDocument.createElement('DIV');
 				this.guideWindow.style.position = 'absolute';
+				this.guideWindow.style.zIndex = '100';
 				this.guideWindow.innerHTML = this.markup;
 				this.referenceDocument.body.appendChild(this.guideWindow);
 				this.tipArrow = this.referenceDocument.querySelector('.gls-arrow');
