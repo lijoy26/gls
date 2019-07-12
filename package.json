@@ -1,0 +1,14 @@
+{
+  "name": "glsplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "lijoy c george",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^6.1.4"
+  }
+}
